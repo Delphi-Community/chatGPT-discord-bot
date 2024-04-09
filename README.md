@@ -3,25 +3,23 @@
 > ### Build your own Discord bot using ChatGPT
 
 ---
-> **Warning**
+> [!IMPORTANT]
 >
-> #### 2023-04-12 Bing now supported
-> #### 2023-04-01 Only Plus account can access Unofficial model
-> #### 2023-03-27 Bard now supported
+> **Major Update (2024/03):**
+> - Due to instability issues with GPT-4 model, we have defaulted back to GPT-3.5-turbo
+> - Gemini-Pro and GPT-4 now supported for free
+> - See README for details and dependency updates.
 
 ### Chat
 
 ![image](https://user-images.githubusercontent.com/89479282/206497774-47d960cd-1aeb-4fba-9af5-1f9d6ff41f00.gif)
 
 # Setup
-
-## Critical prerequisites to install
-
-* run ```pip3 install -r requirements.txt```
-
+## Prerequisites
+* **Python 3.9 or later**
 * **Rename the file `.env.example` to `.env`**
-
-* Recommended python version `3.9` +
+* Running `pip3 install -r requirements.txt` to install the required dependencies
+* Google Chrome for [Image Generation](https://github.com/Zero6992/chatGPT-discord-bot?tab=readme-ov-file#image-generation)
 ---
 ## Step 1: Create a Discord bot
 
@@ -41,73 +39,43 @@
 6. Invite your bot to your server via OAuth2 URL Generator
 
    ![image](https://user-images.githubusercontent.com/89479282/205949600-0c7ddb40-7e82-47a0-b59a-b089f929d177.png)
----
-> **Note**
+
+## Optional: OPENAI ACCESS (gpt-4 & DALL-E-3 supported)
+
+If you possess an OpenAI Plus account, utilizing the OpenAI provider is recommended for a smoother experience.
+
+1. Navigate to https://chat.openai.com/ and log in with your account credentials.
+   
+2. Launch the Developer Tools in your browser.
+ 
+3. In the Developer Tools, navigate to the `Network` tab.
+
+4. Refresh the page to record the network activity.
+ 
+5. Chat whth the bot one time.
+
+6. In the Network tab, right-click on any item in the list of network activities and choose `Save all as HAR with content`. Save the file with the name `a.har`.
+
+7. place the `a.har` file in the `./hardir` directory.
+
+* You can change `MODEL` in `.env` to `gpt-4` also
+
+> [!CAUTION]
+> Ensure that your `a.har` file is stored securely, as it may contain sensitive information.
 >
-> In Step 2, you only need to complete the authentication process for the model you want to use (it's not necessary to complete all Step 2)
-> 
-> Remember to modify `CHAT_MODEL` to the default model you want to use in `.env` file
+> This is not OpenAI API. For API access, please refer [Optional: Configuring OpenAI API](#optional-configuring-openai-api)
 
-## Step 2: Official API authentication
-
-### Geanerate an OpenAI API key
-1. Go to https://beta.openai.com/account/api-keys
-
-2. Click Create new secret key
-
-   ![image](https://user-images.githubusercontent.com/89479282/207970699-2e0cb671-8636-4e27-b1f3-b75d6db9b57e.PNG)
-
-3. Store the SECRET KEY to `.env` under the `OPENAI_API_KEY`
-
----
-## Step 2: Website ChatGPT authentication
-
-> **Only Support ChatGPT Plus Account**
-
-1. Open https://chat.openai.com/api/auth/session
-
-2. Open console with `F12`
-
-3. Open `Application` tab > Cookies
-
-   ![image](https://user-images.githubusercontent.com/89479282/229298001-41ab4f61-5b79-4c65-b08c-708ee6fe2304.png)
-
-4. Copy the value for `_puid` from cookies and paste it into `.env` under `PUID`
-
-5. Copy the value for `accessToken` from cookies and paste it into `.env` under `ACCESS_TOKEN`
-
----
-## Step 2: Google Bard authentication
-1. Go to https://bard.google.com/
-
-2. Open console with `F12`
-
-3. Open `Application` tab > Cookies
-
-4. Copy the value for `__Secure-1PSID` from cookies and paste it into `.env` under `BARD_SESSION_ID`
-
----
-## Step 2: Microsoft Bing authentication
-1. **Rename the file `cookies.dev.json` to `cookies.json`**
-
-2. Go to https://bing.com/chat and log in your Microsoft account
-
-3. Use Cookie Editor or similar extensions to export the cookies
-
-4. Paste it into `cookies.json`
-
----
-## Step 3: Run the bot on the desktop
+## Step 2: Run the bot on the desktop
 
 1. Open a terminal or command prompt
 
 2. Navigate to the directory where you installed the ChatGPT Discord bot
 
-3. Run `python3 main.py` or `python main.py` to start the bot
+3. Run `python3 main.py` or `python main.py` to run the bot
 ---
-## Step 3: Run the bot with Docker
+## Step 2: Run the bot with Docker
 
-1. Build the Docker image & Run the Docker container `docker compose up -d`
+1. Build the Docker image & run the Docker container with `docker compose up -d`
 
 2. Inspect whether the bot works well `docker logs -t chatgpt-discord-bot`
 
@@ -118,21 +86,46 @@
 
 ### Have a good chat!
 ---
+## Image Generation
 
-## Optional: Auto-Login
->  * The auto-login feature allows your bot to automatically login to either Google Bard or Microsoft Bing using provided credentials
->  * It will auto fetch the cookies you need
+<img src="https://i.imgur.com/Eo1ZzKk.png" width="300" alt="image">
 
-*  To enable this feature, first specify your Chrome browser's version by filling in the `chrome_version` field in the `.env` file
-* Google Bard
-   1. set `bard_enable_auto_login` to `True` in `.env`
-   2. Fill `google_account` and `google_password` in `.env`
-  
-      (NOTICE:  AUTO-LOGIN ONLY WORKS FOR GOOGLE ACCOUNT THAT DOES NOT HAVE 2FA)
-* Microsoft Bing
-   1. set `bing_enable_auto_login` to `True` in `.env`
-   2. Then fill `bing_account` and `bing_password` in `.env`
+### OpenAI DALLE3 Image Generation (Requires a GPT Plus account)
+1. Log into your openai account
 
+2. Go to https://chat.openai.com/api/auth/session
+
+3. Copy the value for `access_token` and paste it into `.env` under `OPENAI_TOKEN`
+
+### Microsoft Bing Image Generation
+1. Go to https://www.bing.com/chat and log in
+
+2. Open console with `F12`
+
+3. Open `Application` tab > Cookies
+
+4. Copy the value for `_U` from cookies and paste it into `.env` under `BING_COOKIE`
+
+### Google Gemini Image Generation
+1. Go to https://gemini.google.com/app and log in
+
+2. Open console with `F12`
+
+3. Open `Application` tab > Cookies
+
+4. Copy the value for `__Secure-1PSID` from cookies and paste it into `.env` under `GOOGLE_PSID`
+
+## Optional: Configuring OpenAI API
+
+To use the OpenAI API features, follow these steps:
+
+1. Obtain your API key by visiting https://platform.openai.com/api-keys
+2. Paste the API key under `OPENAI_KEY` in `.env`
+3. Set `OPENAI_ENABLED` to `True` in `.env`
+
+> [!NOTE]
+> GPT-4 API is subject to certain restrictions 
+> For more details, please visit https://help.openai.com/en/articles/7102672-how-can-i-access-gpt-4
 ## Optional: Setup system prompt
 
 * A system prompt would be invoked when the bot is first started or reset
@@ -156,40 +149,29 @@
 ------
 ## Commands
 
-* `/chat [message]` Chat with ChatGPT!
-* `/draw [prompt]` Generate an image with the Dalle2 model
+* `/chat [message]` Chat with ChatGPT/Gemeni
+* `/draw [prompt]` Generate an image with Gemini/OpenAI/Bing
 * `/switchpersona [persona]` Switch between optional chatGPT jailbreaks
    * `random`: Picks a random persona
-   * `chatGPT`: Standard chatGPT mode
-   * `dan`: Dan Mode 11.0, infamous Do Anything Now Mode
-   * `sda`: Superior DAN has even more freedom in DAN Mode
-   * `confidant`: Evil Confidant, evil trusted confidant
-   * `based`: BasedGPT v2, sexy gpt
-   * `oppo`: OPPO says exact opposite of what chatGPT would say
-   * `dev`: Developer Mode, v2 Developer mode enabled
+   * `standard`: Standard chatGPT mode
+   * `dan`: DAN 13.5 (Latest Working ChatGPT Jailbreak prompt)
+   * `Smart mode`: AIM (Always Intelligent and Machiavellian)
+   * `Developer Mode`: software developer who specializes in the AI's area
 
 * `/private` ChatGPT switch to private mode
 * `/public` ChatGPT switch to public mode
 * `/replyall` ChatGPT switch between replyAll mode and default mode
 * `/reset` Clear ChatGPT conversation history
 * `/chat-model` Switch different chat model
-   * `OFFICIAL-GPT-3.5`: GPT-3.5 model
-   * `OFFICIAL-GPT-4.0`: GPT-4.0 model (make sure your account can access gpt-4 model)
-   * `Website ChatGPT-3.5`: Website ChatGPT-3.5 model (UNOFFICIAL)
-   * `Website ChatGPT-4.0`: Website ChatGPT-4.0 model (UNOFFICIAL)(available if you got a plus account)
-   * `Bard`: Google Bard Model
-   * `Bing`: Microsoft Bing Model
+   * `gpt-4`: GPT-4 model
+   * `Gemini`: Google Gemini Model
 ### Special Features
-
-#### Draw
-
-![image](https://user-images.githubusercontent.com/91911303/223772051-13f840d5-99ef-4762-98d2-d15ce23cbbd5.png)
 
 #### Switch Persona
 
 > **Warning**
 >
-> Using certain personas may generate vulgar or disturbing content. Use at your own risk.
+> Certain personas may generate vulgar or disturbing content. Use at your own risk.
 
 ![image](https://user-images.githubusercontent.com/91911303/223772334-7aece61f-ead7-4119-bcd4-7274979c4702.png)
 
